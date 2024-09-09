@@ -4,8 +4,9 @@ require([
     "esri/views/MapView",
     "esri/Graphic",
     "esri/geometry/Point",
-    "esri/widgets/BasemapGallery"  // Added BasemapGallery module
-  ], function(esriConfig, Map, MapView, Graphic, Point, BasemapGallery) {
+    "esri/widgets/BasemapGallery",
+    "esri/widgets/Locate"  // Added Locate module
+  ], function(esriConfig, Map, MapView, Graphic, Point, BasemapGallery, Locate) {
     esriConfig.apiKey = "AAPTxy8BH1VEsoebNVZXo8HurIMrpomeP09wA2mwDUzsv0qeG0ISCTpeTdFxzbJ-cyUauMC57EbnsWKVEefpRXnMiGrcXI8uPFtXbXTg2ji6sArT6R3SJAig3OM8Lzga26cqaxk8AxkOHrjTm9r-TQeuNHOu0bcrPnWC23w_4kB0GpfStwIImUvd3GDp4LZ4RSIjvlx30GE3n4EEu8qDK22R6k_mqP_HtnOMp02bV3JenFSMMaoeVsf4YcD-tH1zZ8sfAT1_iHCSbfhe";
   
     const map = new Map({
@@ -33,6 +34,16 @@ require([
       position: "top-right"
     });
   
+    // Create the Locate widget
+    const locateBtn = new Locate({
+      view: view
+    });
+  
+    // Add the Locate widget to the top-left corner of the view
+    view.ui.add(locateBtn, {
+      position: "top-left"
+    });
+  
     function addGraphic(lon, lat) {
       const point = new Point({
         longitude: lon,
@@ -54,6 +65,7 @@ require([
       view.graphics.add(graphic);
     }
   
+    // Initial geolocation
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         position => {
