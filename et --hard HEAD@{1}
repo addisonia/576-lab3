@@ -1,0 +1,10 @@
+[33mc710361[m[33m ([m[1;36mHEAD -> [m[1;32mmain[m[33m)[m HEAD@{0}: reset: moving to HEAD~1
+[33m43949ad[m HEAD@{1}: commit: challenge 3
+[33mc710361[m[33m ([m[1;36mHEAD -> [m[1;32mmain[m[33m)[m HEAD@{2}: reset: moving to HEAD~1
+[33m537f186[m HEAD@{3}: commit: challenge 3
+[33mc710361[m[33m ([m[1;36mHEAD -> [m[1;32mmain[m[33m)[m HEAD@{4}: commit: challenge 1 and 2
+[33mdf00a09[m[33m ([m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m HEAD@{5}: commit: typo
+[33m47688d4[m HEAD@{6}: pull: Fast-forward
+[33m921501e[m HEAD@{7}: commit: added esri api
+[33m52153b3[m HEAD@{8}: commit: testing connection
+[33m7074b4c[m HEAD@{9}: clone: from https://github.com/addisonia/esrijs.git

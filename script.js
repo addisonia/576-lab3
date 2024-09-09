@@ -3,18 +3,34 @@ require([
     "esri/Map",
     "esri/views/MapView",
     "esri/Graphic",
-    "esri/geometry/Point"
-  ], function(esriConfig, Map, MapView, Graphic, Point) {
+    "esri/geometry/Point",
+    "esri/widgets/BasemapGallery"  // Added BasemapGallery module
+  ], function(esriConfig, Map, MapView, Graphic, Point, BasemapGallery) {
     esriConfig.apiKey = "AAPTxy8BH1VEsoebNVZXo8HurIMrpomeP09wA2mwDUzsv0qeG0ISCTpeTdFxzbJ-cyUauMC57EbnsWKVEefpRXnMiGrcXI8uPFtXbXTg2ji6sArT6R3SJAig3OM8Lzga26cqaxk8AxkOHrjTm9r-TQeuNHOu0bcrPnWC23w_4kB0GpfStwIImUvd3GDp4LZ4RSIjvlx30GE3n4EEu8qDK22R6k_mqP_HtnOMp02bV3JenFSMMaoeVsf4YcD-tH1zZ8sfAT1_iHCSbfhe";
   
     const map = new Map({
-      basemap: "arcgis-imagery" // Using satellite imagery as the basemap
+      basemap: "arcgis-imagery" // Starting with satellite imagery as the basemap
     });
   
     const view = new MapView({
       map: map,
       zoom: 15, // Default zoom level
       container: "viewDiv"
+    });
+  
+    // Create the BasemapGallery
+    const basemapGallery = new BasemapGallery({
+      view: view,
+      source: {
+        portal: {
+          url: "https://www.arcgis.com"
+        }
+      }
+    });
+  
+    // Add the BasemapGallery widget to the top-right corner of the view
+    view.ui.add(basemapGallery, {
+      position: "top-right"
     });
   
     function addGraphic(lon, lat) {
