@@ -1,4 +1,4 @@
 # esrijs
-Geog 576 lab1
+Geog 576 lab2
 
-website: https://addisonia.github.io/esrijs/
+website: https://addisonia.github.io/562-lab2/
