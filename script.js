@@ -12,8 +12,10 @@ require([
   "esri/widgets/Search",
   "esri/symbols/SimpleMarkerSymbol",
   "esri/symbols/SimpleFillSymbol",
-  "esri/symbols/SimpleLineSymbol"
-], function(esriConfig, Map, MapView, Graphic, Point, Polygon, Polyline, GraphicsLayer, BasemapGallery, Locate, Search, SimpleMarkerSymbol, SimpleFillSymbol, SimpleLineSymbol) {
+  "esri/symbols/SimpleLineSymbol",
+  "esri/layers/FeatureLayer",
+  "esri/renderers/SimpleRenderer"
+], function(esriConfig, Map, MapView, Graphic, Point, Polygon, Polyline, GraphicsLayer, BasemapGallery, Locate, Search, SimpleMarkerSymbol, SimpleFillSymbol, SimpleLineSymbol, FeatureLayer, SimpleRenderer) {
   esriConfig.apiKey = "AAPTxy8BH1VEsoebNVZXo8HurIMrpomeP09wA2mwDUzsv0qeG0ISCTpeTdFxzbJ-cyUauMC57EbnsWKVEefpRXnMiGrcXI8uPFtXbXTg2ji6sArT6R3SJAig3OM8Lzga26cqaxk8AxkOHrjTm9r-TQeuNHOu0bcrPnWC23w_4kB0GpfStwIImUvd3GDp4LZ4RSIjvlx30GE3n4EEu8qDK22R6k_mqP_HtnOMp02bV3JenFSMMaoeVsf4YcD-tH1zZ8sfAT1_iHCSbfhe";
 
   const map = new Map({
@@ -175,7 +177,7 @@ require([
   // Add the Observatory Drive polyline to the graphics layer
   graphicsLayer.add(observatoryDriveGraphic);
 
-  // Initial geolocation code remains unchanged
+  // Initial geolocation code
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(
       position => {
@@ -192,4 +194,59 @@ require([
     console.log("Geolocation is not supported by this browser.");
     // We're already centered on Madison, so no need for a fallback
   }
+
+  // Function to map INSTSIZE to actual range
+  function getInstSizeRange(code) {
+    const ranges = {
+      1: "Under 1,000",
+      2: "1,000 - 4,999",
+      3: "5,000 - 9,999",
+      4: "10,000 - 19,999",
+      5: "20,000 - 29,999",
+      6: "30,000 - 39,999",
+      7: "40,000 and above"
+    };
+    return ranges[code] || 'Unknown';
+  }
+
+  const popupColleges = {
+    "title": "{INSTNM}",
+    "content": function(feature) {
+      var attrs = feature.graphic.attributes;
+      return `
+        <b>Institution Size:</b> ${getInstSizeRange(attrs.INSTSIZE) || 'N/A'}<br>
+        <b>City:</b> ${attrs.CITY || 'N/A'}<br>
+        <b>Latitude:</b> ${attrs.LATITUDE !== null ? attrs.LATITUDE.toFixed(4) : 'N/A'}<br>
+        <b>Longitude:</b> ${attrs.LONGITUD !== null ? attrs.LONGITUD.toFixed(4) : 'N/A'}<br>
+        <b>Website:</b> ${attrs.WEBADDR ? `<a href="${attrs.WEBADDR}" target="_blank">${attrs.WEBADDR}</a>` : 'N/A'}
+      `;
+    }
+  };
+
+  // Define a new symbol for the colleges
+  const collegeSymbol = new SimpleMarkerSymbol({
+    style: "triangle",
+    size: 10,
+    color: [0, 255, 255], // Cyan color
+    outline: {
+      color: [0, 0, 0], // Black outline
+      width: 1
+    }
+  });
+
+  // Create a new renderer using the college symbol
+  const collegeRenderer = new SimpleRenderer({
+    symbol: collegeSymbol
+  });
+
+  // Create the FeatureLayer for Colleges and Universities
+  const collegesLayer = new FeatureLayer({
+    url: "https://services2.arcgis.com/FiaPA4ga0iQKduv3/arcgis/rest/services/Colleges_and_Universities_View/FeatureServer/0",
+    outFields: ["INSTNM", "INSTSIZE", "CITY", "LATITUDE", "LONGITUD", "WEBADDR"],
+    popupTemplate: popupColleges,
+    renderer: collegeRenderer
+  });
+
+  // Add the Colleges and Universities layer to the map
+  map.add(collegesLayer);
 });
