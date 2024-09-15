@@ -249,4 +249,33 @@ require([
 
   // Add the Colleges and Universities layer to the map
   map.add(collegesLayer);
+
+
+
+  // Create the FeatureLayer for US Airports
+  const airportsLayer = new FeatureLayer({
+    url: "https://services.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/US_Airports_Addison/FeatureServer/0",
+    outFields: ["fac_name", "fac_type", "city", "elevation"],
+    popupTemplate: {
+      title: "{fac_name}",
+      content: [
+        {
+          type: "fields",
+          fieldInfos: [
+            { fieldName: "fac_type", label: "Facility Type" },
+            { fieldName: "city", label: "City" },
+            { fieldName: "elevation", label: "Elevation" }
+          ]
+        }
+      ]
+    }
+  });
+
+  // Add the US Airports layer to the map
+  map.add(airportsLayer);
+
+
+
+
 });
+
