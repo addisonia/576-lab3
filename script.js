@@ -266,6 +266,15 @@ require([
     }
   };
 
+  const heliportRenderer = {
+    type: "simple",
+    symbol: {
+      type: "picture-marker",
+      url: "https://addisonia.github.io/562-lab2/helicopter.png",    
+      width: "24px",
+      height: "24px"
+    }
+  }
 
   // Create the FeatureLayer for US Airports
   const airportLayer = new FeatureLayer({
@@ -288,8 +297,30 @@ require([
     }
   });
 
+
+  const heliportLayer = new FeatureLayer({
+    url: "https://services.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/US_Airports_Addison/FeatureServer/0",
+    renderer: heliportRenderer,
+    definitionExpression: "Fac_Type = 'HELIPORT'",
+    outFields: ["Fac_Name", "Fac_Type", "City", "Elevation"],
+    popupTemplate: {
+      title: "{Fac_Name}",
+      content: [
+        {
+          type: "fields",
+          fieldInfos: [
+            { fieldName: "Fac_Type", label: "Facility Type" },
+            { fieldName: "City", label: "City" },
+            { fieldName: "Elevation", label: "Elevation" }
+          ]
+        }
+      ]
+    }
+  });
+
   // Add the US Airports layer to the map
   map.add(airportLayer);
+  map.add(heliportLayer);
 
 
 
