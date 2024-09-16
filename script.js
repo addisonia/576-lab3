@@ -14,7 +14,8 @@ require([
   "esri/symbols/SimpleFillSymbol",
   "esri/symbols/SimpleLineSymbol",
   "esri/layers/FeatureLayer",
-  "esri/renderers/SimpleRenderer"
+  "esri/renderers/SimpleRenderer",
+  "esri/widgets/LayerList"
 ], function(esriConfig, Map, MapView, Graphic, Point, Polygon, Polyline, GraphicsLayer, BasemapGallery, Locate, Search, SimpleMarkerSymbol, SimpleFillSymbol, SimpleLineSymbol, FeatureLayer, SimpleRenderer) {
   esriConfig.apiKey = "AAPTxy8BH1VEsoebNVZXo8HurIMrpomeP09wA2mwDUzsv0qeG0ISCTpeTdFxzbJ-cyUauMC57EbnsWKVEefpRXnMiGrcXI8uPFtXbXTg2ji6sArT6R3SJAig3OM8Lzga26cqaxk8AxkOHrjTm9r-TQeuNHOu0bcrPnWC23w_4kB0GpfStwIImUvd3GDp4LZ4RSIjvlx30GE3n4EEu8qDK22R6k_mqP_HtnOMp02bV3JenFSMMaoeVsf4YcD-tH1zZ8sfAT1_iHCSbfhe";
 
@@ -252,19 +253,35 @@ require([
 
 
 
+  
+
+   // Create the airport renderer
+  const airportRenderer = {
+    type: "simple",
+    symbol: {
+      type: "picture-marker",
+      url: "https://addisonia.github.io/562-lab2/local_airport_24dp_FFFF55.png",
+      width: "24px",
+      height: "24px"
+    }
+  };
+
+
   // Create the FeatureLayer for US Airports
-  const airportsLayer = new FeatureLayer({
+  const airportLayer = new FeatureLayer({
     url: "https://services.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/US_Airports_Addison/FeatureServer/0",
-    outFields: ["fac_name", "fac_type", "city", "elevation"],
+    renderer: airportRenderer,
+    definitionExpression: "Fac_Type = 'AIRPORT'",
+    outFields: ["Fac_Name", "Fac_Type", "City", "Elevation"],
     popupTemplate: {
-      title: "{fac_name}",
+      title: "{Fac_Name}",
       content: [
         {
           type: "fields",
           fieldInfos: [
-            { fieldName: "fac_type", label: "Facility Type" },
-            { fieldName: "city", label: "City" },
-            { fieldName: "elevation", label: "Elevation" }
+            { fieldName: "Fac_Type", label: "Facility Type" },
+            { fieldName: "City", label: "City" },
+            { fieldName: "Elevation", label: "Elevation" }
           ]
         }
       ]
@@ -272,8 +289,7 @@ require([
   });
 
   // Add the US Airports layer to the map
-  map.add(airportsLayer);
-
+  map.add(airportLayer);
 
 
 
