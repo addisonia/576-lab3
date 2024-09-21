@@ -102,6 +102,17 @@ require([
     }
   };
 
+  // My Airport renderer
+  const myAirportRenderer = {
+    type: "simple",
+    symbol: {
+      type: "picture-marker",
+      url: "https://addisonia.github.io/562-lab2/myairport.png",    
+      width: "24px",
+      height: "24px"
+    }
+  };
+
   // Popup template for airports and heliports
   const airportPopupTemplate = {
     title: "{Fac_Name}",
@@ -142,7 +153,12 @@ require([
   // My Airports layer
   const myAirports = new FeatureLayer({
     url: "https://services.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/My_Airports_576lab3/FeatureServer",
+    renderer: myAirportRenderer,
     outFields: ["AirportCode"],
+    popupTemplate: {
+      title: "My Airport",
+      content: "{AirportCode}"
+    }
   });
 
   map.add(myAirports);
