@@ -13,8 +13,9 @@ require([
   "esri/symbols/SimpleFillSymbol",
   "esri/symbols/SimpleLineSymbol",
   "esri/renderers/SimpleRenderer",
-  "esri/widgets/LayerList"
-], function(esriConfig, Map, MapView, Graphic, GraphicsLayer, FeatureLayer, BasemapGallery, Editor, Locate, Search, SimpleMarkerSymbol, SimpleFillSymbol, SimpleLineSymbol, SimpleRenderer, LayerList) {
+  "esri/widgets/LayerList",
+  "esri/widgets/Legend"
+], function(esriConfig, Map, MapView, Graphic, GraphicsLayer, FeatureLayer, BasemapGallery, Editor, Locate, Search, SimpleMarkerSymbol, SimpleFillSymbol, SimpleLineSymbol, SimpleRenderer, LayerList, Legend) {
   
   esriConfig.apiKey = "AAPTxy8BH1VEsoebNVZXo8HurIMrpomeP09wA2mwDUzsv0qeG0ISCTpeTdFxzbJ-cyUauMC57EbnsWKVEefpRXnMiGrcXI8uPFtXbXTg2ji6sArT6R3SJAig3OM8Lzga26cqaxk8AxkOHrjTm9r-TQeuNHOu0bcrPnWC23w_4kB0GpfStwIImUvd3GDp4LZ4RSIjvlx30GE3n4EEu8qDK22R6k_mqP_HtnOMp02bV3JenFSMMaoeVsf4YcD-tH1zZ8sfAT1_iHCSbfhe";
 
@@ -201,4 +202,35 @@ require([
   });
 
   view.ui.add(editor, "top-right");
+
+
+  // Create the Legend widget
+  const legend = new Legend({
+    view: view,
+    layerInfos: [
+      {
+        layer: myAirports,
+        title: "My Custom Points"
+      },
+      {
+        layer: airportLayer,
+        title: "US Airports"
+      },
+      {
+        layer: heliportLayer,
+        title: "US Heliports"
+      },
+      {
+        layer: usaeduLayer,
+        title: "US Universities"
+      }
+    ]
+  });
+
+  // Add the legend to the view's UI
+  view.ui.add(legend, "bottom-left");
+
+
+
+
 });
