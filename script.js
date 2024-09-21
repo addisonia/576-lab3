@@ -85,7 +85,7 @@ require([
     type: "simple",
     symbol: {
       type: "picture-marker",
-      url: "https://addisonia.github.io/562-lab2/local_airport_24dp_FFFF55.png",
+      url: "https://addisonia.github.io/576-lab3/local_airport_24dp_FFFF55.png",
       width: "24px",
       height: "24px"
     }
@@ -96,7 +96,7 @@ require([
     type: "simple",
     symbol: {
       type: "picture-marker",
-      url: "https://addisonia.github.io/562-lab2/helicopter.png",    
+      url: "https://addisonia.github.io/576-lab3/helicopter.png",    
       width: "24px",
       height: "24px"
     }
@@ -107,7 +107,7 @@ require([
     type: "simple",
     symbol: {
       type: "picture-marker",
-      url: "https://addisonia.github.io/562-lab2/myairport.png",    
+      url: "https://addisonia.github.io/576-lab3/myairport.png",    
       width: "24px",
       height: "24px"
     }
