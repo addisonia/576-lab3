@@ -152,13 +152,40 @@ require([
 
   // My Airports layer
   const myAirports = new FeatureLayer({
-    url: "https://services.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/My_Airports_576lab3/FeatureServer",
-    renderer: myAirportRenderer,
+    url: "https://services.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/My_Airports_576lab3/FeatureServer/0",
+    renderer: {
+      type: "simple",
+      symbol: {
+        type: "picture-marker",
+        url: "./myairport.png",
+        width: "24px",
+        height: "24px"
+      }
+    },
     outFields: ["AirportCode"],
     popupTemplate: {
       title: "My Airport",
       content: "{AirportCode}"
-    }
+    },
+
+    // Labelling Info
+    labelingInfo: [{
+      symbol: {
+        type: "text",
+        color: "black",
+        haloColor: "white",
+        haloSize: "2px",
+        font: {
+          size: "12px",
+          family: "Arial",
+          weight: "bold"
+        }
+      },
+      labelPlacement: "above-center",
+      labelExpressionInfo: {
+        expression: "$feature.AirportCode"
+      }
+    }]
   });
 
   map.add(myAirports);
